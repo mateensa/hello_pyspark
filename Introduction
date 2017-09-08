@@ -9,4 +9,8 @@ Introduction: Spark is fast, easy to use, engine for Big-Data processing
     Spark Python API aka pyspark, exposes spark model into python programming model using python API
    
 Why use spark when mapreduce is available? 
-
+MapReduce is engine responsible for bigdata processing, in distributed way but parallely. it's a part of Handoop eco-system. 
+It  has two components map and reduce. 
+     Map: It takes set of data from source and converts in to tuples (key value pair)
+     Reduce: It takes data from Map and reduce it (by applying transformations or cleansing ... )
+     
