@@ -28,3 +28,4 @@ To avoid this (call it as feature of map-reduce), Spark has been used which does
 
 which means spark reads data from source, keeps it in memory and process it, thus by reducing io requests across hardware and thus its makes faster.
 
+-------------------------------------------X-----------------------------------------
