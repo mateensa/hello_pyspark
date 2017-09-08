@@ -1,0 +1,16 @@
+Installation on Windows platform. 
+
+To install pyspark, we must, first install python (i consider lastest version (3.X) since it comes with pip package management tool).
+Once python is installed make sure to add python.exe file path to windows PATH variable. 
+
+1.	Dont have pip. (download it)
+	(a) If you dont have pip you can download it from https://spark.apache.org/downloads.html  
+	(b) Extract to some place and unzip it (untar it)
+	(c) Rename unzipped directory to spark from spark-x.x.x-handoopx.x 
+
+For pip: 
+
+C:\Users\ms47807>pip install pyspark
+Collecting pyspark
+  Downloading pyspark-2.2.0.post0.tar.gz (188.3MB)
+    53% |█████████████████▏              | 101.1MB 412kB/s eta 0:03:32
