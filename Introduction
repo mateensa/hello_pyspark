@@ -1,0 +1,12 @@
+Introduction: Spark is fast, easy to use, engine for Big-Data processing  
+    it has below modules or api's
+    
+    1.  Streaming
+    2.  SQL/ETL
+    3.  Machine learning
+    4.  Graph Processing
+    
+    Spark Python API aka pyspark, exposes spark model into python programming model using python API
+   
+Why use spark when mapreduce is available? 
+
