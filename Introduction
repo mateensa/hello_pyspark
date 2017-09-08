@@ -24,5 +24,7 @@ Why:
     Reduce: reads data from Map and does some transformations and writes data again to disk. 
     
 Thus map and reduce totally does io  (read/writes to disk) & processing, it does not consider writing data to some place where it does not have read or write frequently (ram).
-To avoid this (call it as feature of map-reduce), Spark has been used which does all in memory processing
+To avoid this (call it as feature of map-reduce), Spark has been used which does all in memory. 
+
+which means spark reads data from source, keeps it in memory and process it, thus by reducing io requests across hardware and thus its makes faster.
 
