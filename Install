@@ -1,16 +1,33 @@
 Installation on Windows platform. 
 
 To install pyspark, we must, first install python (i consider lastest version (3.X) since it comes with pip package management tool).
-Once python is installed make sure to add python.exe file path to windows PATH variable. 
+Once python is installed make sure to add python.exe file path to windows PATH variable, once this is done you can enter python in cmd prompt, which welcomes you to python interpreter, some thing like below.
+
+C:\Users\ms47807>python
+Python 3.6.0 (v3.6.0:41df79263a11, Dec 23 2016, 08:06:12) [MSC v.1900 64 bit (AMD64)] on win32
+Type "help", "copyright", "credits" or "license" for more information.
+>>>
+
+which means all is well and we are good to go with pyspark installation.
 
 1.	Dont have pip. (download it)
 	(a) If you dont have pip you can download it from https://spark.apache.org/downloads.html  
 	(b) Extract to some place and unzip it (untar it)
 	(c) Rename unzipped directory to spark from spark-x.x.x-handoopx.x 
 
-For pip: 
+For pip: in command prompt hit "pip install pyspark", which will show something like below once it begins installation. 
+
 
 C:\Users\ms47807>pip install pyspark
 Collecting pyspark
   Downloading pyspark-2.2.0.post0.tar.gz (188.3MB)
-    53% |█████████████████▏              | 101.1MB 412kB/s eta 0:03:32
+    100% |████████████████████████████████| 188.3MB 3.0kB/s
+Collecting py4j==0.10.4 (from pyspark)
+  Downloading py4j-0.10.4-py2.py3-none-any.whl (186kB)
+    100% |████████████████████████████████| 194kB 421kB/s
+Installing collected packages: py4j, pyspark
+  Running setup.py install for pyspark ... done
+Successfully installed py4j-0.10.4 pyspark-2.2.0
+
+
+-------------------------------------------X-----------------------------------------
