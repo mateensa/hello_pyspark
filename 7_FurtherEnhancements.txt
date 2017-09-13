@@ -1,0 +1,67 @@
+# Consider created DataFrame df (created in below pyspark programm) and let's standardize it.
+
+from pyspark.sql.types import *;
+
+def convertColumn(df, names, newType):
+  for name in names: 
+     df = df.withColumn(name, df[name].cast(newType))
+  return df 
+  
+df = rdd.map(lambda line: Row(longitude=line[0], 
+                              latitude=line[1], 
+                              housingMedianAge=line[2],
+                              totalRooms=line[3],
+                              totalBedRooms=line[4],
+                              population=line[5], 
+                              households=line[6],
+                              medianIncome=line[7],
+                              medianHouseValue=line[8])).toDF();
+							  
+columns = ['households', 'housingMedianAge', 'latitude', 'longitude', 'medianHouseValue', 'medianIncome', 'population', 'totalBedRooms', 'totalRooms'];
+df = convertColumn(df, columns, FloatType());
+df.groupBy("housingMedianAge").count().sort("housingMedianAge",ascending=False).show();
+
+
+# We can enhance further medianHouseValue value to represent in 100K's by dividing by 100,00, using col method. so, instead of 452600.000000 it should show 4.526
+# col function tells spark we are working only with that particular column in DataFrame
+
+# Adjust the values of `medianHouseValue`
+df = df.withColumn("medianHouseValue", col("medianHouseValue")/100000)
+
+# Show the first 2 lines of `df`
+df.take(2)
+
+#Below is output
+>>>[Row(households=126.0, housingMedianAge=41.0, latitude=37.880001068115234, longitude=-122.2300033569336, medianHouseValue=4.526, medianIncome=8.325200080871582, population=322.0, totalBedRooms=129.0, totalRooms=880.0), Row(households=1138.0, housingMedianAge=21.0, latitude=37.86000061035156, longitude=-122.22000122070312, medianHouseValue=3.585, medianIncome=8.301400184631348, population=2401.0, totalBedRooms=1106.0, totalRooms=7099.0)]
+
+How to calculate: 
+
+	Rooms per household:-> which refers to the number of rooms in households per block group; (totalRooms divide by households)
+	
+	Population per household:-> which basically gives you an indication of how many people live in households per block group; (population divide by households)
+	
+	Bedrooms per room:-> which will give you an idea about how many rooms are bedrooms per block group (totalBedRooms divide by totalRooms)
+	
+	
+# Import all from `sql.functions` if you haven't yet
+from pyspark.sql.functions import *
+
+# Divide `totalRooms` by `households`
+roomsPerHousehold = df.select(col("totalRooms")/col("households"))
+
+# Divide `population` by `households`
+populationPerHousehold = df.select(col("population")/col("households"))
+
+# Divide `totalBedRooms` by `totalRooms`
+bedroomsPerRoom = df.select(col("totalBedRooms")/col("totalRooms"))
+
+# Add the new columns to `df`
+df = df.withColumn("roomsPerHousehold", col("totalRooms")/col("households")) \
+   .withColumn("populationPerHousehold", col("population")/col("households")) \
+   .withColumn("bedroomsPerRoom", col("totalBedRooms")/col("totalRooms"))
+   
+# Inspect the result
+df.first()
+
+
+	

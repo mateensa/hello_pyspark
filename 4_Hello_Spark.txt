@@ -1,0 +1,57 @@
+First Spark Program: 
+
+
+	
+# Import SparkSession
+from pyspark.sql import SparkSession
+
+# Build the SparkSession
+spark = SparkSession.builder.master("local").appName("Linear Regression Model").config("spark.executor.memory", "1gb").getOrCreate()
+# Get sparkContext   
+sc = spark.sparkContext
+
+#Load data into memory (just open file and initilize rdd's, this will not actually load data into memory, remember rdd lazy initilization concept, until we tell spark to collect)
+
+# Load in the data
+rdd = sc.textFile('/Users/yourName/Downloads/CaliforniaHousing/cal_housing.data')
+
+# Load in the header
+header = sc.textFile('/Users/yourName/Downloads/CaliforniaHousing/cal_housing.domain');
+
+# collect method: The collect() method brings the entire RDD to a single machine, calling this can make your spark driver to run out of memory, its alternative is take method.
+# take method, loads & allows to play with limited set of ddata. 
+
+rdd.take(2);
+
+[u'-122.230000,37.880000,41.000000,880.000000,129.000000,322.000000,126.000000,8.325200,452600.000000', u'-122.220000,37.860000,21.000000,7099.000000,1106.000000,2401.000000,1138.000000,8.301400,358500.000000']
+
+# Above result has list of length =1 but take actually returns 2 rows., to map this properly into list of length =2 we can use map function on RDD. 
+
+# Splitting lines using (ananymous function without method body (recall functional programming) ) function: 
+
+fn = func(lambda line: line.split(",")) 
+rdd.map(fn);
+rdd.take(2);
+
+# And now result is of length 2 
+[[u'-122.230000', u'37.880000', u'41.000000', u'880.000000', u'129.000000', u'322.000000', u'126.000000', u'8.325200', u'452600.000000'], [u'-122.220000', u'37.860000', u'21.000000', u'7099.000000', u'1106.000000', u'2401.000000', u'1138.000000', u'8.301400', u'358500.000000']]
+
+Putting it alltogeather: 
+
+# Import SparkSession
+from pyspark.sql import SparkSession
+
+# Build the SparkSession
+spark = SparkSession.builder.master("local").appName("Linear Regression Model").config("spark.executor.memory", "1gb").getOrCreate()
+# Get sparkContext   
+sc = spark.sparkContext
+
+# Load in the data
+rdd = sc.textFile('/Users/yourName/Downloads/CaliforniaHousing/cal_housing.data')
+
+# Load in the header
+header = sc.textFile('/Users/yourName/Downloads/CaliforniaHousing/cal_housing.domain');
+rdd.map(lambda line: line.split(","));
+rdd.take(2);
+
+

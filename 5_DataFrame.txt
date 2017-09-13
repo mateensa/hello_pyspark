@@ -1,0 +1,122 @@
+DataFrame: It makes life easier since it also gives results with header, unlike RDD, whose data is difficult to understand once it gives results (after calling take method). 
+
+why and what's difference between RDD and DataFrame ? 
+
+	1.	Its considered that if spark + python is used, performance of DataFrames is better than RDDs.
+	2.	using RDD we manipulate data with functional programming constructs rather then domain specific expressions (recall lambda function)
+	3.	RDD is used commonly, to apply transformations on unstructured data with out accessing attributes by name or columns (however you can do it using lambda functions)
+	4.	In DataFrames we use high level expressions, SQL Querys to access data by columns.
+	
+	
+DataFrame is also called as SchemaRDD or an RDD of Row objects with a schema. Lets create it and do some Exploratory Data Analysis (EDA).
+
+
+# Import the necessary modules 
+from pyspark.sql import Row
+
+# Map the RDD to get DataFrame object df
+df = rdd.map(lambda line: Row(longitude=line[0], 
+                              latitude=line[1], 
+                              housingMedianAge=line[2],
+                              totalRooms=line[3],
+                              totalBedRooms=line[4],
+                              population=line[5], 
+                              households=line[6],
+                              medianIncome=line[7],
+                              medianHouseValue=line[8])).toDF();
+							  
+# Once DF is created, we can apply actions on it to see results. commonly like first(), take(), but also with head() and show():
+
+# Show the top 20 rows 
+# This will return data in tabular format (nicely ordered into rows and columns like as if you are looking at excel file) 
+# which is easily readable unlike RDD which returns data in form of list, tuple or dictionary representation. 
+df.show(); 
+
+By default, dataframes will be initilizes all columns of type string. We can check this with, below methods. 
+
+# Print the data types of all `df` columns
+# df.dtypes
+
+# Print the schema of `df`
+df.printSchema()
+
+To change this behaviour, we can use cast method with pyspark.sql.types, like below. 
+
+from pyspark.sql.types import *
+
+df = df.withColumn("longitude", df["longitude"].cast(FloatType())) \
+   .withColumn("latitude", df["latitude"].cast(FloatType())) \
+   .withColumn("housingMedianAge",df["housingMedianAge"].cast(FloatType())) \
+   .withColumn("totalRooms", df["totalRooms"].cast(FloatType())) \ 
+   .withColumn("totalBedRooms", df["totalBedRooms"].cast(FloatType())) \ 
+   .withColumn("population", df["population"].cast(FloatType())) \ 
+   .withColumn("households", df["households"].cast(FloatType())) \ 
+   .withColumn("medianIncome", df["medianIncome"].cast(FloatType())) \ 
+   .withColumn("medianHouseValue", df["medianHouseValue"].cast(FloatType())); 
+   
+# just nothing but too many withColumn & cast methods, looks terrible.. !!!
+
+Since all methods in this DataFrame are of FloatType, we can use UDF to convert, Pretty Way.. !!!
+
+# Import all from `sql.types`
+from pyspark.sql.types import *
+
+# Write a custom function to convert the data type of DataFrame columns
+def convertColumn(df, names, newType):
+  for name in names: 
+     df = df.withColumn(name, df[name].cast(newType))
+  return df 
+
+# Assign all column names to `columns`
+columns = ['households', 'housingMedianAge', 'latitude', 'longitude', 'medianHouseValue', 'medianIncome', 'population', 'totalBedRooms', 'totalRooms']
+
+# Conver the `df` columns to `FloatType()`
+df = convertColumn(df, columns, FloatType())
+
+# Pretty print 10 rows.
+
+df.select('population','totalBedRooms').show(10)
+
++----------+-------------+
+|population|totalBedRooms|
++----------+-------------+
+|     322.0|        129.0|
+|    2401.0|       1106.0|
+|     496.0|        190.0|
+|     558.0|        235.0|
+|     565.0|        280.0|
+|     413.0|        213.0|
+|    1094.0|        489.0|
+|    1157.0|        687.0|
+|    1206.0|        665.0|
+|    1551.0|        707.0|
++----------+-------------+
+only showing top 10 rows
+
+# A more complex example: show me how many median age order by median age desc. 
+
+df.groupBy("housingMedianAge").count().sort("housingMedianAge",ascending=False).show()
+
+Putting it altogeather: 
+________________________________________
+
+from pyspark.sql.types import *;
+
+def convertColumn(df, names, newType):
+  for name in names: 
+     df = df.withColumn(name, df[name].cast(newType))
+  return df 
+  
+df = rdd.map(lambda line: Row(longitude=line[0], 
+                              latitude=line[1], 
+                              housingMedianAge=line[2],
+                              totalRooms=line[3],
+                              totalBedRooms=line[4],
+                              population=line[5], 
+                              households=line[6],
+                              medianIncome=line[7],
+                              medianHouseValue=line[8])).toDF();
+							  
+columns = ['households', 'housingMedianAge', 'latitude', 'longitude', 'medianHouseValue', 'medianIncome', 'population', 'totalBedRooms', 'totalRooms'];
+df = convertColumn(df, columns, FloatType());
+df.groupBy("housingMedianAge").count().sort("housingMedianAge",ascending=False).show();

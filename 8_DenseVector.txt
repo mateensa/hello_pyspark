@@ -1,0 +1,10 @@
+The DenseVector: Its stores double arrays of values for use in PySpark
+
+# Import `DenseVector`
+from pyspark.ml.linalg import DenseVector
+
+# Define the `input_data` 
+input_data = df.rdd.map(lambda x: (x[0], DenseVector(x[1:])))
+
+# Replace `df` with the new DataFrame
+df = spark.createDataFrame(input_data, ["label", "features"])

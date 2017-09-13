@@ -1,0 +1,24 @@
+Creating RDD : Resilient distributed data set
+	
+	According to (Resilient Distributed Datasets: A Fault-Tolerant Abstraction for In-Memory Cluster Computing by) Matei Zaharia (CTO of Databricks), et al.
+	
+	SparkSession & SparkContext: 
+	
+	A RDD is a resilient and distributed collection of records spread over one or many partitions and its a basic building block of spark.
+	Spark automatically partitions the data under the hood to get this parallelism, that is why RDD is a collection of parallelism. 
+	
+
+	you can tell spark to parallelize data in form of RDD by using parallelize() function, later you can apply two types of operations
+		
+		1. Transformation's like (most commonly used) map(), filter(), flatMap(), sample(), randomSplit(), coalesce() repartition(), reduce(), collect(), first(), take(), count(), saveAsHadoopFile()
+			tranformations are lazy operations on RDD (initilized lazily programatically) that can create one or more RDD 
+		
+		2. Results: After creating RDD, we can call collect method which can give results (result, number, output file as well...)
+		
+		
+			rdd1.reduce(lambda a,b: a+b);
+			rdd1.collect();
+			
+			rdd2.flatMapValues(lambda x: x).collect();
+	
+	

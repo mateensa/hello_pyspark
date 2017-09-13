@@ -1,0 +1,25 @@
+StandardScaler: 
+Next, you can finally scale the data. You can use Spark ML to do this: this library will make machine learning on big data scalable and easy. 
+You’ll find tools such as ML algorithms and everything you need to build practical ML pipelines. 
+In this case, you don’t need to do that much preprocessing
+
+
+# Import `StandardScaler` 
+from pyspark.ml.feature import StandardScaler
+
+# Initialize the `standardScaler`
+standardScaler = StandardScaler(inputCol="features", outputCol="features_scaled")
+
+# Fit the DataFrame to the scaler
+scaler = standardScaler.fit(df)
+
+# Transform the data in `df` with the scaler
+scaled_df = scaler.transform(df)
+
+# Inspect the result
+scaled_df.take(2)
+
+Result: 
+[Row(label=4.526, features=DenseVector([129.0, 322.0, 126.0, 8.3252, 6.9841, 2.5556, 0.1466]), features_scaled=DenseVector([0.3062, 0.2843, 0.3296, 4.3821, 2.8228, 0.2461, 2.5264])), Row(label=3.585, features=DenseVector([1106.0, 2401.0, 1138.0, 8.3014, 6.2381, 2.1098, 0.1558]), features_scaled=DenseVector([2.6255, 2.1202, 2.9765, 4.3696, 2.5213, 0.2031, 2.6851]))]
+
+Let’s take a look at your DataFrame and the result. You see that, indeed, a third column features_scaled was added to your DataFrame, which you can use to compare with features:
