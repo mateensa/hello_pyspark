@@ -1,4 +1,4 @@
-Example Data Set: 
+Example Data Set: (Not actually dataset class of scala, but a physical data)
 
 	California Housing Data Set (http://www.dcc.fc.up.pt/~ltorgo/Regression/cal_housing.html)
 	
