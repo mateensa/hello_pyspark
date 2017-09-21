@@ -1,4 +1,4 @@
-Introduction: Spark is fast, easy to use, engine for Big-Data processing  
+Introduction: Spark is fast, easy to use, engine for Big-Data processing as per documentation on spark.apache.org but i say in general its a in-memory bigdata processing engine( and its engine uses DAG [directed acyclic graph])
     it has below modules or api's
     
     1.  Streaming
