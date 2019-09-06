@@ -24,7 +24,8 @@ Why:
     Reduce: reads data from Map and does some transformations and writes data again to disk. 
     
 Thus map and reduce totally does io  (read/writes to disk) & processing, it does not consider writing data to some place where it does not have read or write frequently (ram).
-To avoid this (call it as feature of map-reduce), Spark has been used which does all in memory. 
+To avoid this (call it as feature of map-reduce), Spark has been used which does all in memory
+, **hence its also called as In-Memory BigData Processing Engine**. 
 
 which means spark reads data from source, keeps it in memory and process it, thus by reducing io requests across hardware and thus its makes faster.
 
@@ -35,6 +36,13 @@ You can use the same single clustered runtime environment for prototyping, ad ho
 You can be as low-level as using RDD API directly or leverage higher-level APIs of Spark SQL (Datasets), Spark MLlib (ML Pipelines), Spark GraphX (Graphs) or Spark Streaming (DStreams).
 Or use them all in a single application.
 The single programming model and execution engine for different kinds of workloads simplify development and deployment architectures.
+
+RDD: Resilient Distributed Datasets: 
+    Its depricated. RDD is the representation of a set of records, immutable collection of objects
+    
+DF: Data Frames:
+    A Data Frame is used for storing data in tables. It is equivalent to a table in a relational database but with richer optimization
+
 
 
 -------------------------------------------X-----------------------------------------
